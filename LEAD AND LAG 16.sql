@@ -1,0 +1,68 @@
+CREATE DATABASE LL;
+USE LL;
+
+CREATE TABLE SALES_TABLE (
+EMPLOYEE_NAME VARCHAR (50) NOT NULL,
+YEAR INT NOT NULL,
+COUNTTRY VARCHAR (50) NOT NULL,
+PRODUCT VARCHAR (50) NOT NULL,
+SALE DECIMAL (12,2) NOT NULL );
+
+INSERT INTO sales_table VALUES  
+('Stephen', 2017, 'India', 'Laptop', 10000),    
+('Stephen', 2018, 'India', 'Laptop', 15000),    
+('Stephen', 2019, 'India', 'TV', 20000),    
+('Bob', 2017, 'US', 'Computer', 15000),    
+('Bob', 2018, 'US', 'Computer', 10000),    
+('Bob', 2019, 'US', 'TV', 20000),    
+('Mandy', 2017, 'Canada', 'Mobile', 20000),    
+('Mandy', 2018, 'Canada', 'Calculator', 1500),    
+('Mandy', 2019, 'Canada', 'Mobile', 25000);
+
+
+SELECT * FROM  SALES_TABLE;
+
+
+# LEAD FUNTION
+
+SELECT YEAR,PRODUCT,SALE,
+LEAD(SALE,1) OVER (
+PARTITION BY year
+ORDER BY COUNTTRY) AS NEXT_SALE
+FROM SALES_TABLE;
+
+# LAG FUNCTION
+
+SELECT YEAR,PRODUCT,SALE,
+LAG(SALE,1) OVER (
+PARTITION BY year
+ORDER BY COUNTTRY) AS PREVIOUS_LAG
+FROM SALES_TABLE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

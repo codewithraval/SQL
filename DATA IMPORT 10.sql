@@ -1,0 +1,60 @@
+create database DL;
+USE DL;
+
+DROP TABLE SALES3;
+
+CREATE TABLE sales3 (
+order_id VARCHAR(15),
+order_date VARCHAR(15) NOT NULL,
+ship_date VARCHAR(15) NOT NULL,
+ship_mode varchar (14) NOT NULL,
+customer_name VARCHAR(22) NOT NULL,
+segment VARCHAR (11) NOT NULL,
+state VARCHAR(36) NOT NULL,
+country VARCHAR(32) NOT NULL,
+market VARCHAR(6) NOT NULL,
+region VARCHAR(14) NOT NULL,
+product_id VARCHAR(16) NOT NULL,
+category VARCHAR(15) NOT NULL,
+sub_category VARCHAR(11) NOT NULL,
+product_name VARCHAR(127) NOT NULL,
+sales DECIMAL(38,0) NOT NULL,
+quantity DECIMAL(38,0) NOT NULL,
+discount DECIMAL(38,3) NOT NULL,
+profit DECIMAL(38,8) NOT NULL,
+shipping_cost DECIMAL(38,2) NOT NULL,
+order_priority VARCHAR(8) NOT NULL,
+`YEAR` DECIMAL(38,0) NOT NULL
+);
+
+
+SET SESSION SQL_MODE = "";
+
+load data infile
+'C:/sales_data_final (1).csv'
+into table sales3
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 rows;
+
+SELECT * FROM SALES3;
+
+SELECT STR_TO_DATE(ORDER_DATE,'%d/%m/%Y') FROM sales3;
+SET @@SESSION.SQL_MODE = 'ALLOW_INVALID_DATES';
+
+
+ALTER TABLE SALES3
+ADD COLUMN OREDER_DATE_NEW1 DATE AFTER ORDER_DATE;
+
+UPDATE SALES3
+SET OREDER_DATE_NEW1 = STR_TO_DATE(ORDER_DATE,'%m/%d/%Y');
+
+SELECT *,
+CASE 
+    WHEN SALES > 600 THEN "EXPENSIVE"
+    WHEN SALES > 300 AND SALES < 600 THEN " BUGET "
+    WHEN SALES < 300 THEN "CHEAP "
+    ELSE "VERY EXPENSIVE"
+END AS 'BUGET'
+FROM SALES3;
